@@ -23,8 +23,10 @@ class test_basemodel(unittest.TestCase):
 
     def tearDown(self):
         """Tear down test methods."""
-        super().tearDown()
-        os.remove('file.json')
+        try:
+            os.remove('file.json')
+        except FileNotFoundError:
+            pass
 
     def test_default(self):
         """Test default"""
@@ -59,7 +61,7 @@ class test_basemodel(unittest.TestCase):
         """Test str"""
         i = self.value()
         self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
+                                                       i.__dict__))
 
     def test_todict(self):
         """Test to dict"""
