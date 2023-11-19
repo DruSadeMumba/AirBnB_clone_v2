@@ -1,2 +1,4 @@
 .idea/
 /generate.sh
+/file.json
+/main_delete.py
