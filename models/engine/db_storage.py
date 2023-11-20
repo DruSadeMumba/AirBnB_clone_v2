@@ -35,36 +35,29 @@ class DBStorage:
         """get all obj"""
         dic = {}
         if cls:
-            if type(cls) is str:
-                cls = eval(cls)
-            query = self.__session.query(cls)
-            for elem in query:
-                key = "{}.{}".format(type(elem).__name__, elem.id)
-                dic[key] = elem
-        else:
-            lista = [State, City, User, Place, Review, Amenity]
-            for clase in lista:
-                query = self.__session.query(clase)
-                for elem in query:
-                    key = "{}.{}".format(type(elem).__name__, elem.id)
-                    dic[key] = elem
+            objects = self.__session.query(cls).all()
+            for obj in objects:
+                key = f"{type(obj).__name__}.{obj.id}"
+                dic[key] = obj
+        for all_cls in Base.__subclasses__():
+            objects = self.__session.query(all_cls).all()
+            for obj in objects:
+                key = f"{type(obj).__name__}.{obj.id}"
+                dic[key] = obj
         return dic
 
     def new(self, obj):
         """create new obj in db"""
-        with self.__session.begin():
-            self.__session.add(obj)
+        self.__session.add(obj)
 
     def save(self):
         """save obj in db"""
-        with self.__session.begin():
-            self.__session.commit()
+        self.__session.commit()
 
     def delete(self, obj=None):
         """delete obj from db"""
         if obj:
-            with self.__session.begin():
-                self.__session.delete(obj)
+            self.__session.delete(obj)
 
     def reload(self):
         """reload db"""
