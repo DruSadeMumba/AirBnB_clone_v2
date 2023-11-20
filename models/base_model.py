@@ -17,7 +17,7 @@ class BaseModel:
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         """Instantiates a new model"""
         if not kwargs:
             self.id = str(uuid.uuid4())
@@ -52,4 +52,5 @@ class BaseModel:
         return dictionary
 
     def delete(self):
+        """delete obj"""
         models.storage.delete(self)
