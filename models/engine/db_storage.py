@@ -3,8 +3,13 @@
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-
 from models.base_model import Base, BaseModel
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
+from models.user import User
 
 
 class DBStorage:
@@ -34,7 +39,7 @@ class DBStorage:
             for obj in objects:
                 key = f"{type(obj).__name__}.{obj.id}"
                 dic[key] = obj
-        for all_cls in BaseModel.__subclasses__():
+        for all_cls in Base.__subclasses__():
             objects = self.__session.query(all_cls).all()
             for obj in objects:
                 key = f"{type(obj).__name__}.{obj.id}"
