@@ -12,7 +12,7 @@ import os
     os.getenv("HBNB_TYPE_STORAGE") == "db",
     "Test is not relevant for BaseModel"
 )
-class TestBaseModel(unittest.TestCase):
+class test_basemodel(unittest.TestCase):
     """Test cases for the BaseModel class"""
     def __init__(self, *args, **kwargs):
         """initialize basemodel"""
