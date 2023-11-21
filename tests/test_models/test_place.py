@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+"""Unit Test for Place class."""
 from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
 
