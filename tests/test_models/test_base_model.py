@@ -8,9 +8,12 @@ import json
 import os
 
 
-class test_basemodel(unittest.TestCase):
+@unittest.skipIf(
+    os.getenv("HBNB_TYPE_STORAGE") == "db",
+    "Test is not relevant for BaseModel"
+)
+class TestBaseModel(unittest.TestCase):
     """Test cases for the BaseModel class"""
-
     def __init__(self, *args, **kwargs):
         """initialize basemodel"""
         super().__init__(*args, **kwargs)
