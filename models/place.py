@@ -4,17 +4,14 @@ from os import getenv
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 import models
-from models.amenity import Amenity
 from models.base_model import BaseModel, Base
-from models.review import Review
 
 metadata = Base.metadata
-if getenv("HBNB_TYPE_STORAGE") == "db":
-    place_amenity = Table("place_amenity", metadata,
-                          Column("place_id", String(60), ForeignKey("places.id"),
-                                 primary_key=True, nullable=False),
-                          Column("amenity_id", String(60), ForeignKey(
-                              "amenities.id"), primary_key=True, nullable=False))
+place_amenity = Table("place_amenity", metadata,
+                      Column("place_id", String(60), ForeignKey("places.id"),
+                             primary_key=True, nullable=False),
+                      Column("amenity_id", String(60), ForeignKey(
+                          "amenities.id"), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -46,8 +43,7 @@ class Place(BaseModel, Base):
 
         @property
         def amenities(self):
-            return [amenity for amenity in models.storage.all(Amenity).values()
-                    if amenity.id in self.amenity_ids]
+            return self.amenity_ids
 
         @amenities.setter
         def amenities(self, amen):
