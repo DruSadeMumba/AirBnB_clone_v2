@@ -5,3 +5,7 @@
 /main_place_amenities.py
 tests/test_models/__pycache__/
 tests/test_models/test_engine/__pycache__/
+/test_params_create
+/main_42_0.sql
+/drop_dev_database.sql
+/main_42.py
