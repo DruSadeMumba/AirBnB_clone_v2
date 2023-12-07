@@ -15,5 +15,5 @@ def do_pack():
     try:
         local(f"tar -cvzf {archive_name} web_static")
         return archive_name
-    except tarfile.TarError:
+    except Exception:
         return None
