@@ -16,13 +16,13 @@ def do_deploy(archive_path):
         file_name = archive_path.split('/')[-1]
         folder = f'/data/web_static/releases/{file_name.split(".")[0]}'
 
-        run(f"sudo mkdir -p {folder}")
-        run(f"sudo tar -xzf /tmp/{file_name} -C {folder}")
+        run(f"mkdir -p {folder}")
+        run(f"tar -xzf /tmp/{file_name} -C {folder}")
 
-        run(f"sudo rm -rf /tmp/{file_name}")
-        run("sudo rm -rf /data/web_static/current")
+        run(f"rm -rf /tmp/{file_name}")
+        run("rm -rf /data/web_static/current")
 
-        run(f"sudo ln -s {folder} /data/web_static/current")
+        run(f"ln -s {folder} /data/web_static/current")
         print("New version deployed!")
         return True
 
