@@ -63,7 +63,8 @@ def do_clean(number=0):
         number = 0
 
     try:
-        local(f"ls -t versions | tail -n +{number + 1} | xargs -I {{}} rm versions/{{}}")
+        local(f"ls -t versions | tail -n +{number + 1} "
+              f"| xargs -I {{}} rm versions/{{}}")
         with cd('/data/web_static/releases'):
             sudo(f"ls -t | tail -n+{number + 1} | xargs -I {{}} rm -rf {{}}")
         return True
