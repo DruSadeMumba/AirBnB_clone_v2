@@ -39,7 +39,7 @@ def do_deploy(archive_path):
         run(f"sudo rm -rf {folder}/web_static")
         run("sudo rm -rf /data/web_static/current")
 
-        run(f"ln -s {folder} /data/web_static/current")
+        run(f"sudo ln -s {folder} /data/web_static/current")
         return True
 
     except Exception:
