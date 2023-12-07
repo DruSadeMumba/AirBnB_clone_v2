@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Keep it clean"""
-
 from datetime import datetime
 from os.path import exists
 from fabric.api import env, put, run, local
