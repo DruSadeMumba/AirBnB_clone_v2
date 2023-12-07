@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Deploy archive"""
-import tarfile
 from os.path import exists
 from fabric.api import env, put, run
 
