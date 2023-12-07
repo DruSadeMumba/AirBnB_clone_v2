@@ -3,7 +3,6 @@
 from datetime import datetime
 from os.path import exists
 from fabric.api import local
-import tarfile
 
 
 def do_pack():
