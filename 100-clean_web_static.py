@@ -37,7 +37,8 @@ def do_deploy(archive_path):
         run(f"sudo tar -xzf /tmp/{file_name} -C {folder}")
 
         run(f"sudo rm -rf /tmp/{file_name}")
-        run(f"sudo rsync -a --remove-source-files {folder}/web_static/* {folder}/")
+        run(f"sudo rsync -a --remove-source-files "
+            f"{folder}/web_static/* {folder}/")
         run(f"sudo rm -rf {folder}/web_static")
         run("sudo rm -rf /data/web_static/current")
 
