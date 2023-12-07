@@ -1,39 +1,90 @@
 # Prepare your web servers using puppet
-$apt_update_command = '/usr/bin/env apt-get -y update'
-$apt_install_nginx_command = '/usr/bin/env apt-get -y install nginx'
-$web_static_directory = '/data/web_static'
-$releases_test_directory = "${web_static_directory}/releases/test"
-$shared_directory = "${web_static_directory}/shared"
-$index_content = 'Holberton School'
 
-exec { 'apt-get-update':
-  command => $apt_update_command,
+$nginx_conf = "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By ${hostname};
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+        return 301 http://google.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}"
+
+package { 'nginx':
+  ensure   => 'present',
+  provider => 'apt'
 } ->
-exec { 'install-nginx':
-  command => $apt_install_nginx_command,
+
+file { '/data':
+  ensure  => 'directory'
 } ->
-file { [$releases_test_directory, $shared_directory]:
-  ensure => directory,
-  owner  => 'ubuntu',
-  group  => 'ubuntu',
-  mode   => '0755',
+
+file { '/data/web_static':
+  ensure => 'directory'
 } ->
-file { "${releases_test_directory}/index.html":
-  ensure  => file,
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
-  mode    => '0644',
-  content => $index_content,
+
+file { '/data/web_static/releases':
+  ensure => 'directory'
 } ->
-exec { 'create-symlink':
-  command => "/usr/bin/env ln -sf ${releases_test_directory} ${web_static_directory}/current",
+
+file { '/data/web_static/releases/test':
+  ensure => 'directory'
 } ->
-exec { 'configure-nginx':
-  command => '/usr/bin/env sed -i "/listen 80 default_server/a location /hbnb_static/ { alias /data/web_static/current/;}" /etc/nginx/sites-available/default',
+
+file { '/data/web_static/shared':
+  ensure => 'directory'
 } ->
-exec { 'restart-nginx':
-  command => '/usr/bin/env service nginx restart',
+
+file { '/data/web_static/releases/test/index.html':
+  ensure  => 'present',
+  content => "Holberton School Puppet\n"
 } ->
-exec { 'change-owner':
-  command => '/usr/bin/env chown -R ubuntu:ubuntu /data',
+
+file { '/data/web_static/current':
+  ensure => 'link',
+  target => '/data/web_static/releases/test'
+} ->
+
+exec { 'chown -R ubuntu:ubuntu /data/':
+  path => '/usr/bin/:/usr/local/bin/:/bin/'
+}
+
+file { '/var/www':
+  ensure => 'directory'
+} ->
+
+file { '/var/www/html':
+  ensure => 'directory'
+} ->
+
+file { '/var/www/html/index.html':
+  ensure  => 'present',
+  content => "Holberton School Nginx\n"
+} ->
+
+file { '/var/www/html/404.html':
+  ensure  => 'present',
+  content => "Ceci n'est pas une page\n"
+} ->
+
+file { '/etc/nginx/sites-available/default':
+  ensure  => 'present',
+  content => $nginx_conf
+} ->
+
+exec { 'nginx restart':
+  path => '/etc/init.d/'
 }
