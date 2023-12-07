@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Deploy archive"""
-from os.path import exists
+import os.path
 from fabric.api import env, put, run
 
 env.hosts = ['52.204.67.182', '18.209.180.1']
