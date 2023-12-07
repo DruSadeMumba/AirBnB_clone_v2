@@ -35,7 +35,7 @@ def do_deploy(archive_path):
         run(f"tar -xzf /tmp/{file_name} -C {folder}")
 
         run(f"rm -rf /tmp/{file_name}")
-        run(f"mv {folder}/web_static/* {folder}/")
+        run(f"mv -f {folder}/web_static/* {folder}/")
         run(f"rm -rf {folder}/web_static")
         run("rm -rf /data/web_static/current")
 
