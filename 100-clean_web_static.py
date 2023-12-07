@@ -34,12 +34,12 @@ def do_deploy(archive_path):
         folder = f'/data/web_static/releases/{file_name.split(".")[0]}'
 
         run(f"sudo mkdir -p {folder}")
-        run(f"tar -xzf /tmp/{file_name} -C {folder}")
+        run(f"sudo tar -xzf /tmp/{file_name} -C {folder}")
 
-        run(f"rm -rf /tmp/{file_name}")
+        run(f"sudo rm -rf /tmp/{file_name}")
         run(f"sudo rsync -a --remove-source-files {folder}/web_static/* {folder}/")
-        run(f"rm -rf {folder}/web_static")
-        run("rm -rf /data/web_static/current")
+        run(f"sudo rm -rf {folder}/web_static")
+        run("sudo rm -rf /data/web_static/current")
 
         run(f"ln -s {folder} /data/web_static/current")
         return True
