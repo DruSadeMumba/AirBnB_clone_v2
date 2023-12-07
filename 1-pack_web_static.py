@@ -7,6 +7,7 @@ import tarfile
 
 
 def do_pack():
+    """Compress before sending"""
     if not exists("versions"):
         local("mkdir -p versions")
 
