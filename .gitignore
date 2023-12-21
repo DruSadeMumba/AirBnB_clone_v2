@@ -9,3 +9,4 @@ tests/test_models/test_engine/__pycache__/
 /main_42_0.sql
 /drop_dev_database.sql
 /main_42.py
+/7-dump
