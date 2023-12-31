@@ -2,7 +2,7 @@
 """This module defines a class to manage db storage for hbnb clone"""
 from os import getenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base, BaseModel
 from models.state import State
 from models.city import City
@@ -62,7 +62,9 @@ class DBStorage:
     def reload(self):
         """reload db"""
         Base.metadata.create_all(self.__engine)
-        self.__session = Session(self.__engine)
+        sess = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session = scoped_session(sess)
+        self.__session = session()
 
     def close(self):
         """close session"""
