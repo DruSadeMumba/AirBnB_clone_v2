@@ -18,5 +18,9 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """get cities from file storage"""
-        return [city for city in models.storage.all(City).values()
-                if city.state_id == self.id]
+        city_list = []
+        all_cities = models.storage.all(City)
+        for city in all_cities.values():
+            if city.state_id == self.id:
+                city_list.append(city)
+        return city_list
