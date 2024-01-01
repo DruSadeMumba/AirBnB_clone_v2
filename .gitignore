@@ -9,3 +9,4 @@ tests/test_models/test_engine/__pycache__/
 /*-dump*
 /web_flask/templates/*-dump*
 /web_flask/templates/validator
+/web_flask/*-dump*
