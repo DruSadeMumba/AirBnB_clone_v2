@@ -1,15 +1,20 @@
 #!/usr/bin/python3
-"""This module defines a class to manage db storage for hbnb clone"""
-from os import getenv
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-from models.base_model import Base, BaseModel
-from models.state import State
+"""manage db storage"""
+import models
+from models.amenity import Amenity
+from models.base_model import BaseModel, Base
 from models.city import City
 from models.place import Place
 from models.review import Review
-from models.amenity import Amenity
+from models.state import State
 from models.user import User
+from os import getenv
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class DBStorage:
@@ -34,16 +39,12 @@ class DBStorage:
     def all(self, cls=None):
         """get all obj"""
         dic = {}
-        if cls:
-            objects = self.__session.query(cls).all()
-            for obj in objects:
-                key = f"{type(obj).__name__}.{obj.id}"
-                dic[key] = obj
-        for all_cls in Base.__subclasses__():
-            objects = self.__session.query(all_cls).all()
-            for obj in objects:
-                key = f"{type(obj).__name__}.{obj.id}"
-                dic[key] = obj
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    dic[key] = obj
         return dic
 
     def new(self, obj):
@@ -62,7 +63,9 @@ class DBStorage:
     def reload(self):
         """reload db"""
         Base.metadata.create_all(self.__engine)
-        self.__session = Session(self.__engine)
+        sess = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        sessions = scoped_session(sess)
+        self.__session = sessions
 
     def close(self):
         """close session"""
