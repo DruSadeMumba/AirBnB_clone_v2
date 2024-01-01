@@ -6,6 +6,6 @@ tests/test_models/test_engine/__pycache__/
 /test_params_create
 /main*
 /drop_dev_database.sql
-/7-dump*
-/web_flask/templates/7-dump.sql
+/*-dump*
+/web_flask/templates/*-dump*
 /web_flask/templates/validator
