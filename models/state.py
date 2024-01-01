@@ -10,14 +10,13 @@ from models.city import City
 
 class State(BaseModel, Base):
     """ State class """
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        __tablename__ = "states"
-        name = Column(String(128), nullable=False)
-        cities = relationship("City", cascade="all, delete, delete-orphan",
-                              backref="state")
-    else:
-        @property
-        def cities(self):
-            """get cities from file storage"""
-            return [city for city in models.storage.all(City).values()
-                    if city.state_id == self.id]
+    __tablename__ = "states"
+    name = Column(String(128), nullable=False)
+    cities = relationship("City", cascade="all, delete, delete-orphan",
+                          backref="state")
+
+    @property
+    def cities(self):
+        """get cities from file storage"""
+        return [city for city in models.storage.all(City).values()
+                if city.state_id == self.id]
