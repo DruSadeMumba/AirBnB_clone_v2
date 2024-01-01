@@ -1,14 +1,11 @@
 .idea/
 /generate.sh
 /file.json
-/main_delete.py
-/main_place_amenities.py
 tests/test_models/__pycache__/
 tests/test_models/test_engine/__pycache__/
 /test_params_create
-/main_42_0.sql
+/main*
 /drop_dev_database.sql
-/main_42.py
 /7-dump*
 /web_flask/templates/7-dump.sql
 /web_flask/templates/validator
