@@ -9,6 +9,6 @@ tests/test_models/test_engine/__pycache__/
 /main_42_0.sql
 /drop_dev_database.sql
 /main_42.py
-/7-dump
+/7-dump*
 /web_flask/templates/7-dump.sql
 /web_flask/templates/validator

@@ -20,7 +20,8 @@ def cities_list():
     states = sorted(states, key=lambda k: k.name)
     state_city = []
     for state in states:
-        state_city.append([state, sorted(state.cities, key=lambda key: key.name)])
+        state_city.append([state, sorted(state.cities,
+                                         key=lambda key: key.name)])
     return render_template('8-cities_by_states.html',
                            states=state_city)
 
