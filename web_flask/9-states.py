@@ -17,26 +17,19 @@ def teardown(err):
 @app.route('/states/<id>', strict_slashes=False)
 def the_states(id=None):
     """List states"""
-    states = storage.all(State).values()
-    states = sorted(states, key=lambda key: key.name)
-    found = 0
-    state = ""
-    cities = []
+    states = get_states_by_id(id)
+    return render_template('9-states.html', states=states, id=id)
 
-    for stat in states:
-        if id == stat.id:
-            state = stat
-            found = 1
-            break
-    if found:
-        states = sorted(state.cities, key=lambda key: key.name)
-        state = state.name
 
-    if id and not found:
-        found = 2
-
-    return render_template("9-states.html", state=state,
-                           array=states, found=found)
+def get_states_by_id(id):
+    """get states by id"""
+    states = storage.all(State)
+    if id:
+        key = f"{State.__name__}.{id}"
+        states = states.get(key, None)
+    else:
+        states = states.values()
+    return states
 
 
 if __name__ == '__main__':
